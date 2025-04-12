@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multilingual Health Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <h1 id="portalTitle">Health Voice Portal</h1>
+            </div>
+            <div class="user-greeting">
+                <span id="greeting">Welcome</span>, <span id="userName">User</span>!
+            </div>
+        </header>
+
+        <section class="language-selector">
+            <h2 id="languageTitle">Select Your Language</h2>
+            <select id="languageDropdown" class="language-dropdown">
+                <option value="en">English</option>
+                <!-- All other languages as in original -->
+                <option value="bhoj">भोजपुरी (Bhojpuri)</option>
+            </select>
+        </section>
+
+        <section class="voice-interface">
+            <h2 id="voiceTitle">Voice Interaction</h2>
+            <div class="voice-controls">
+                <button id="micButton" class="voice-btn">
+                    <i class="fas fa-microphone"></i>
+                    <span id="micText">Speak</span>
+                </button>
+                <button id="speakerButton" class="voice-btn">
+                    <i class="fas fa-volume-up"></i>
+                    <span id="speakerText">Listen</span>
+                </button>
+            </div>
+            <div class="transcript-box">
+                <h3 id="transcriptTitle">Transcript</h3>
+                <div id="transcript"></div>
+            </div>
+        </section>
+
+        <section class="feature-cards">
+            <h2 id="featuresTitle">Key Features</h2>
+            <div class="card-container">
+                <div class="card">
+                    <i class="fas fa-language"></i>
+                    <h3 id="multiLangTitle">Multi-language Support</h3>
+                    <p id="multiLangDesc">Access healthcare information in 22 Indian languages</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-microphone-alt"></i>
+                    <h3 id="voiceTechTitle">Voice Technology</h3>
+                    <p id="voiceTechDesc">Speak to ask questions, listen to responses</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-home"></i>
+                    <h3 id="ruralTitle">Rural Accessibility</h3>
+                    <p id="ruralDesc">Designed for low-bandwidth and basic devices</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="health-query">
+            <h2 id="queryTitle">Ask a Health Question</h2>
+            <div class="query-input">
+                <input type="text" id="queryInput" placeholder="Type your health question here">
+                <button id="startVoiceQuery" title="Speak">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button id="submitQuery" title="Submit">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            <div class="common-symptoms">
+                <h3 id="commonSymptomsTitle">Common Symptoms</h3>
+                <div class="symptom-buttons">
+                    <button class="symptom-btn" data-symptom="fever">
+                        <i class="fas fa-thermometer-three-quarters"></i>
+                        <span id="feverText">Fever</span>
+                    </button>
+                    <button class="symptom-btn" data-symptom="headache">
+                        <i class="fas fa-head-side-virus"></i>
+                        <span id="headacheText">Headache</span>
+                    </button>
+                    <button class="symptom-btn" data-symptom="cough">
+                        <i class="fas fa-lungs"></i>
+                        <span id="coughText">Cough</span>
+                    </button>
+                    <button class="symptom-btn" data-symptom="stomach">
+                        <i class="fas fa-stomach"></i>
+                        <span id="stomachText">Stomach Pain</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="response-area">
+            <h2 id="responseTitle">Health Information</h2>
+            <div id="responseContent" class="response-content">
+                <div id="loadingSpinner" style="display:none; text-align: center; margin: 20px;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 24px;"></i> <br>
+                    <span>Processing your symptoms...</span>
+                </div>
+                <p id="initialMessage">Select a language, then ask a health question by voice or text</p>
+            </div>
+        </section>
+
+        <footer>
+            <p id="footerText">© 2025 Health Voice Portal - Providing accessible healthcare information</p>
+            <button id="settingsButton" class="settings-btn">
+                <i class="fas fa-cog"></i>
+                <span id="settingsText">Settings</span>
+            </button>
+        </footer>
+    </div>
+
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Enter Your Name</h2>
+            <input type="text" id="userNameInput" placeholder="Your Name">
+            <button id="saveUserName">Save</button>
+        </div>
+    </div>
+
+    <script>
+        // Voice-to-text for query input
+        document.getElementById('startVoiceQuery').addEventListener('click', () => {
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = 'en-IN'; // default to English-India
+
+            recognition.onstart = () => {
+                document.getElementById('queryInput').placeholder = 'Listening...';
+            };
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('queryInput').value = transcript;
+                document.getElementById('queryInput').placeholder = 'Type your health question here';
+            };
+
+            recognition.onerror = () => {
+                document.getElementById('queryInput').placeholder = 'Try again';
+            };
+
+            recognition.start();
+        });
+
+        // Submit query with loader and TTS
+        document.getElementById('submitQuery').addEventListener('click', function () {
+            const input = document.getElementById('queryInput').value.trim();
+            let selectedSymptoms = [];
+
+            // Show spinner
+            document.getElementById('loadingSpinner').style.display = 'block';
+            document.getElementById('initialMessage').style.display = 'none';
+            document.getElementById('responseContent').scrollIntoView({ behavior: 'smooth' });
+
+            document.querySelectorAll('.symptom-btn.active').forEach(btn => {
+                selectedSymptoms.push(btn.dataset.symptom);
+            });
+
+            if (input.length > 0) {
+                const typed = input.split(',').map(s => s.trim()).filter(s => s !== '');
+                selectedSymptoms = selectedSymptoms.concat(typed);
+            }
+
+            fetch('/predict_disease', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ symptoms: selectedSymptoms })
+            })
+            .then(res => res.json())
+            .then(data => {
+                const responseDiv = document.getElementById('responseContent');
+                const msg = `Predicted Disease: ${data.disease}`;
+                responseDiv.innerHTML = `<p><strong>${msg}</strong></p>`;
+
+                // Speak the response
+                const synth = window.speechSynthesis;
+                const utter = new SpeechSynthesisUtterance(msg);
+                utter.lang = 'en-IN';
+                synth.speak(utter);
+            })
+            .catch(error => {
+                console.error('Prediction error:', error);
+                document.getElementById('responseContent').innerHTML = `<p>Error predicting disease. Try again.</p>`;
+            })
+            .finally(() => {
+                document.getElementById('loadingSpinner').style.display = 'none';
+            });
+        });
+    </script>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

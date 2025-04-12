@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swasthya Sathi - Healthcare for All</title>
+    
+    <!-- Favicon (Optional) -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+                <h1>Swasthya Sathi</h1>
+            </div>
+            <div class="nav-buttons">
+                <div class="language-selector">
+                    <select id="language-select">
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी (Hindi)</option>
+                        <option value="bn">বাংলা (Bengali)</option>
+                        <option value="te">తెలుగు (Telugu)</option>
+                        <option value="mr">मराठी (Marathi)</option>
+                        <option value="ta">தமிழ் (Tamil)</option>
+                        <option value="ur">اردو (Urdu)</option>
+                        <option value="gu">ગુજરાતી (Gujarati)</option>
+                        <option value="kn">ಕನ್ನಡ (Kannada)</option>
+                        <option value="ml">മലയാളം (Malayalam)</option>
+                        <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+                        <option value="as">অসমীয়া (Assamese)</option>
+                        <option value="or">ଓଡ଼ିଆ (Odia)</option>
+                        <option value="sa">संस्कृत (Sanskrit)</option>
+                        <option value="sd">سنڌي (Sindhi)</option>
+                        <option value="ks">کٲشُر (Kashmiri)</option>
+                        <option value="ne">नेपाली (Nepali)</option>
+                        <option value="kok">कोंकणी (Konkani)</option>
+                        <option value="mai">मैथिली (Maithili)</option>
+                        <option value="doi">डोगरी (Dogri)</option>
+                        <option value="bho">भोजपुरी (Bhojpuri)</option>
+                        <option value="sat">संताली (Santali)</option>
+                    </select>
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="dark-mode-toggle">
+                    <input type="checkbox" id="dark-mode-checkbox">
+                    <label for="dark-mode-checkbox" class="dark-mode-label">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                        <span class="toggle-ball"></span>
+                    </label>
+                </div>
+                <a href="{{ url_for('login') }}" class="btn btn-secondary lang-login">Login</a>
+                <a href="{{ url_for('register') }}" class="btn btn-primary lang-register">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2 class="lang-hero-title">Healthcare at Your Fingertips</h2>
+                <p class="intro-text lang-intro-text">
+                    Swasthya Sathi helps rural users access critical health information using voice 
+                    technology in their local languages. No matter where you are or what language 
+                    you speak, quality healthcare guidance is just a conversation away.
+                </p>
+                <div class="hero-buttons">
+                    <a href="{{ url_for('register') }}" class="btn btn-primary btn-large lang-register-now">Register Now</a>
+                    <a href="{{ url_for('landing') }}#features" class="btn btn-outlined btn-large lang-learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="{{ url_for('static', filename='images/hero-illustration.png') }}" alt="Healthcare illustration">
+            </div>
+        </div>
+    </main>
+
+    <section class="features" id="features">
+        <div class="container">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-language"></i>
+                </div>
+                <h3 class="lang-feature1-title">Multi-language Support</h3>
+                <p class="lang-feature1-text">Access healthcare information in your native language</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-microphone-alt"></i>
+                </div>
+                <h3 class="lang-feature2-title">Voice Technology</h3>
+                <p class="lang-feature2-text">Interact naturally through voice commands and responses</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <h3 class="lang-feature3-title">Rural Accessibility</h3>
+                <p class="lang-feature3-text">Designed for areas with limited connectivity and resources</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p class="lang-footer">&copy; 2025 Swasthya Sathi. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='js/landing.js') }}"></script>
+</body>
+</html>

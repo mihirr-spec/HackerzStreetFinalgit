@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swasthya Sathi - Registration</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="header">
+            <div class="dark-mode-container">
+                <div class="dark-mode-toggle">
+                    <input type="checkbox" id="dark-mode-checkbox">
+                    <label for="dark-mode-checkbox" class="dark-mode-label">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                        <span class="toggle-ball"></span>
+                        <span class="toggle-text">Dark Mode</span>
+                    </label>
+                </div>
+            </div>
+        </header>
+        
+        <main class="main-content">
+            <div class="container">
+                <div class="form-container">
+                    <div class="logo">
+                        <img src="/api/placeholder/100/100" alt="Swasthya Sathi Logo">
+                        <h1>Swasthya Sathi</h1>
+                    </div>
+                    
+                    <h2>Create Your Account</h2>
+                    <p class="subtitle">Join our healthcare platform for better care management</p>
+                    
+                    <form id="registration-form" method="POST" action="{{ url_for('register') }}">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" required>
+                            <span class="error-message" id="username-error"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                            <span class="error-message" id="email-error"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <div class="password-input">
+                                <input type="password" id="password" name="password" required>
+                                <i class="toggle-password fas fa-eye" data-target="password"></i>
+                            </div>
+                            <span class="error-message" id="password-error"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirm-password">Confirm Password</label>
+                            <div class="password-input">
+                                <input type="password" id="confirm-password" name="confirm-password" required>
+                                <i class="toggle-password fas fa-eye" data-target="confirm-password"></i>
+                            </div>
+                            <span class="error-message" id="confirm-password-error"></span>
+                        </div>
+                        
+                        <button type="submit" class="register-btn">Register</button>
+                    </form>
+                    
+                    <p class="login-link">Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p>&copy; 2025 Swasthya Sathi. All rights reserved.</p>
+        </footer>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/register.js') }}"></script>
+</body>
+</html>
